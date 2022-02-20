@@ -2,6 +2,8 @@ import React from 'react'
 import { Feather } from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { useTheme } from 'styled-components'
+import { StatusBar } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
@@ -40,17 +42,22 @@ import {
   RentalPriceQuota,
   RentalPriceTotal
 } from './styles'
-import { StatusBar } from 'react-native'
 
 export function ShedulingDetails(){
 
   const { colors } = useTheme()
 
+  const { navigate, goBack } = useNavigation<any>()
+
+  function handleNavigateToShedulingComplete() {
+    navigate('ShedulingComplete')
+  }
+
   return (
     <Container>
       <Header>
         <StatusBar backgroundColor={colors.background_secondary} barStyle={'dark-content'} />
-        <BackButton onPress={() => {}} />
+        <BackButton onPress={() => goBack()} />
       </Header>
       
       <CarImages>
@@ -136,7 +143,7 @@ export function ShedulingDetails(){
       </Content>
 
       <Footer>
-        <Button title='Confirmar' onPress={() => {}} />
+        <Button color={colors.success} title='Alugar agora' onPress={handleNavigateToShedulingComplete} />
       </Footer>
 
     </Container>

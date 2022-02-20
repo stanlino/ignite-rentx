@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTheme } from 'styled-components'
 import { StatusBar } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { Button } from '../../components/Button'
 import { BackButton } from '../../components/BackButton'
@@ -24,12 +25,18 @@ export function Sheduling(){
   
   const { colors } = useTheme()
 
+  const { navigate, goBack } = useNavigation<any>()
+
+  function handleNavigateToShedulingDetails() {
+    navigate('ShedulingDetails')
+  }
+
   return (
   <Container>
     <Header>
-      <StatusBar backgroundColor={colors.header} barStyle={'light-content'}/>
+      <StatusBar translucent={false} backgroundColor={colors.header} barStyle={'light-content'}/>
 
-      <BackButton color={colors.shape} onPress={() => {}}/>
+      <BackButton color={colors.shape} onPress={() => goBack()}/>
 
       <Title>
         {`Escolha uma \ndata de inicio e \nfim do aluguel`}
@@ -55,7 +62,7 @@ export function Sheduling(){
     </Content>
 
     <Footer>
-      <Button title='Confirmar' />
+      <Button title='Confirmar' onPress={handleNavigateToShedulingDetails} />
     </Footer>
   </Container>
   )
