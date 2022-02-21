@@ -1,18 +1,16 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useTheme } from 'styled-components'
+import { StackScreenProps } from '@react-navigation/stack'
+
+import { RootStackParamList } from '../../routes/app.routes'
 
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
 import { ImageSlider } from '../../components/ImageSlider'
 import { Button } from '../../components/Button'
 
-import SpeedSvg from '../../assets/speed.svg'
-import AcelerationSvg from '../../assets/acceleration.svg'
-import ForceSvg from '../../assets/force.svg'
-import GasolineSvg from '../../assets/gasoline.svg'
-import ExchangeSvg from '../../assets/exchange.svg'
-import PeopleSvg from '../../assets/people.svg'
+import { getAccessoryItem } from '../../utils/getAccessoryItem'
 
 import {
   Container,
@@ -27,74 +25,62 @@ import {
   Period,
   Price,
   About,
-  Acessories,
+  Accessories,
   Footer
 } from './styles'
 
-export function CarDetails(){
+type CarDetailsProps = StackScreenProps<RootStackParamList, 'CarDetails'>
 
-  const { navigate, goBack } = useNavigation<any>()
+export function CarDetails({ navigation, route } : CarDetailsProps){
+
+  const { navigate, goBack } = navigation
+  const { params: { car } } = route
+
+  const { colors } = useTheme()
 
   function handleNavigateToSheduling() {
-    navigate('Sheduling')
+    navigate('Sheduling', { car })
   }
 
   return (
     <Container>
       <Header>
-        <StatusBar barStyle={'dark-content'} translucent={false} /> 
+        <StatusBar barStyle={'dark-content'} backgroundColor={colors.background_secondary} /> 
         <BackButton onPress={() => goBack()} />
       </Header>
       
       <CarImages>
         <ImageSlider 
-          imagesUrl={['http://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png']}
+          imagesUrl={car.photos}
         />
       </CarImages>
 
       <Content>
         <Details>
           <Description>
-            <Brand>Lamborguini</Brand>
-            <Name>Buracan</Name>
+            <Brand>{car.brand}</Brand>
+            <Name>{car.name}</Name>
           </Description>
           <Rent>
-            <Period>Ao dia</Period>
-            <Price>R$ 580</Price>
+            <Period>{car.rent.period}</Period>
+            <Price>{`R$ ${car.rent.price}`}</Price>
           </Rent>
         </Details>
 
-        <Acessories>
-          <Accessory 
-            name="380km/h"
-            icon={SpeedSvg}
-          />
-          <Accessory 
-            name="3.2s"
-            icon={AcelerationSvg}
-          />
-          <Accessory 
-            name="800 HP"
-            icon={ForceSvg}
-          />
-          <Accessory 
-            name="Consumo"
-            icon={GasolineSvg}
-          />
-          <Accessory 
-            name="Auto"
-            icon={ExchangeSvg}
-          />
-          <Accessory 
-            name="2 pessoas"
-            icon={PeopleSvg}
-          />
-        </Acessories>
+        <Accessories>
+          {
+            car.accessories.map(accessory => (
+              <Accessory 
+                key={accessory.type}
+                name={accessory.name}
+                icon={getAccessoryItem(accessory.type)}
+              />
+            ))
+          }
+        </Accessories>
 
         <About>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. A cupiditate
-          exercitationem molestias blanditiis quis vero odio non, asperiores
-          facere repellat atque.
+          {car.about}
         </About>
 
       </Content>

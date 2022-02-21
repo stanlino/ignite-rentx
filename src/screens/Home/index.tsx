@@ -1,10 +1,17 @@
-import { useNavigation } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
+import { useTheme } from 'styled-components'
+import { StackScreenProps } from '@react-navigation/stack'
+
+import { RootStackParamList } from '../../routes/app.routes'
 
 import LogoSvg from '../../assets/logo.svg'
-import { Car, CarData } from '../../components/Car'
+import { Car } from '../../components/Car'
+import { Load } from '../../components/Load'
+
+import { api } from '../../services/api'
+import { CarDTO } from '../../dtos/carDto'
 
 import {
   CardList,
@@ -13,30 +20,38 @@ import {
   TotalCars
 } from './styles'
 
-export function Home(){
+type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>
 
-  const carData: CarData = {
-    brand: 'Audi',
-    name: 'RS 5 Coupé',
-    rent: {
-      period: 'AO DIA',
-      price: 120
-    },
-    thumbnail: 'http://freepngimg.com/thumb/audi/35227-5-audi-rs5-red.png'
+export function Home({ navigation } : HomeScreenProps){
+
+  const [cars, setCars] = useState<CarDTO[]>([] as CarDTO[])
+
+  const { navigate } = navigation
+  const { colors } = useTheme()
+
+  function handleNavigateToCarDetails(car: CarDTO) {
+    navigate('CarDetails', { car })
   }
 
-  const { navigate } = useNavigation<any>()
+  useEffect(() => {
+    async function fetchCars() {
+      try {
+        const response = await api.get('/cars')
+        setCars(response.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
-  function handleNavigateToCarDetails() {
-    navigate('CarDetails')
-  }
+    fetchCars()
+ 
+  },[])
 
   return (
     <Container>
       <StatusBar 
-        backgroundColor={'transparent'} 
+        backgroundColor={colors.header} 
         barStyle={'light-content'}
-        translucent
       />
       <Header>
         <LogoSvg width={RFValue(108)} height={RFValue(12)} />
@@ -44,9 +59,12 @@ export function Home(){
       </Header>
 
       <CardList 
-        data={[1,2,3,4,5]}
-        keyExtractor={item => String(item)}
-        renderItem={({ item }) => <Car data={carData} onPress={handleNavigateToCarDetails} />}
+        data={cars}
+        keyExtractor={item => item.id}
+        renderItem={({ item }) => 
+          <Car data={item} onPress={() => handleNavigateToCarDetails(item)} />
+        }
+        ListEmptyComponent={() => <Load />}
       />
 
     </Container>
