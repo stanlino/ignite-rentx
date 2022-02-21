@@ -3,6 +3,7 @@ import { StatusBar } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { useTheme } from 'styled-components'
 import { StackScreenProps } from '@react-navigation/stack'
+import { Ionicons } from '@expo/vector-icons'
 
 import { RootStackParamList } from '../../routes/app.routes'
 
@@ -17,7 +18,8 @@ import {
   CardList,
   Container, 
   Header, 
-  TotalCars
+  TotalCars,
+  MyCarsButton
 } from './styles'
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>
@@ -31,6 +33,10 @@ export function Home({ navigation } : HomeScreenProps){
 
   function handleNavigateToCarDetails(car: CarDTO) {
     navigate('CarDetails', { car })
+  }
+
+  function handleNavigateToMyCars() {
+    navigate('MyCars')
   }
 
   useEffect(() => {
@@ -66,6 +72,10 @@ export function Home({ navigation } : HomeScreenProps){
         }
         ListEmptyComponent={() => <Load />}
       />
+
+      <MyCarsButton onPress={handleNavigateToMyCars}>
+        <Ionicons name='ios-car-sport' size={32} color={colors.shape} />
+      </MyCarsButton>
 
     </Container>
   )
