@@ -3,7 +3,8 @@ import styled from 'styled-components/native'
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler'
 
 interface ButtonProps extends RectButtonProps {
-  color: string
+  color: string,
+  loading?: boolean
 }
 
 export const Container = styled(RectButton)<ButtonProps>`
@@ -11,6 +12,8 @@ export const Container = styled(RectButton)<ButtonProps>`
   background-color: ${({theme, color }) => 
     color ? color : theme.colors.main
   };
+
+  opacity: ${({ enabled, loading }) => !enabled || loading ? 0.5 : 1};
 
   padding: 19px;
 
