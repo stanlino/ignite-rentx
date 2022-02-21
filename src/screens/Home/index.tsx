@@ -58,6 +58,7 @@ export function Home({ navigation } : HomeScreenProps){
       <StatusBar 
         backgroundColor={colors.header} 
         barStyle={'light-content'}
+        translucent={false}
       />
       <Header>
         <LogoSvg width={RFValue(108)} height={RFValue(12)} />

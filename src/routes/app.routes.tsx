@@ -8,8 +8,10 @@ import { ShedulingComplete } from '../screens/ShedulingComplete'
 import { ShedulingDetails } from '../screens/ShedulingDetails'
 import { CarDTO } from '../dtos/carDto'
 import { MyCars } from '../screens/MyCars'
+import { Splash } from '../screens/Splash'
 
 export type RootStackParamList = {
+  Splash: undefined
   Home: undefined
   CarDetails: { car: CarDTO }
   Sheduling: { car: CarDTO }
@@ -22,7 +24,8 @@ const { Navigator, Screen } = createStackNavigator<RootStackParamList>()
 
 export function AppRoutes(){
   return (
-    <Navigator screenOptions={{ headerShown: false, presentation: 'modal' }}>
+    <Navigator initialRouteName='Splash' screenOptions={{ headerShown: false, presentation: 'modal' }}>
+      <Screen name='Splash' component={Splash} />
       <Screen name='Home' component={Home} />
       <Screen name='CarDetails' component={CarDetails} />
       <Screen name='Sheduling' component={Sheduling} />
