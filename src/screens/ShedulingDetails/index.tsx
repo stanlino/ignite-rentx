@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Feather } from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { useTheme } from 'styled-components'
@@ -49,6 +49,8 @@ type ShedulingDetailsProps = StackScreenProps<RootStackParamList, 'ShedulingDeta
 
 export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
 
+  const [loading, setLoading] = useState(false)
+
   const { colors } = useTheme()
 
   const { navigate, goBack } = navigation
@@ -59,6 +61,8 @@ export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
 
   async function handleConfirmRental() {
 
+    setLoading(true)
+
     const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`)
 
     const unavailable_dates = [
@@ -68,7 +72,9 @@ export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
 
     await api.post('schedules_byuser', {
       user_id: 2,
-      car
+      car,
+      startDate,
+      endDate
     })
 
     api.put(`/schedules_bycars/${car.id}`, {
@@ -80,6 +86,7 @@ export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
     })
     .catch(error => {
       Alert.alert('Ops', 'Erro ao confirmar agendamento')
+      setLoading(false)
     })
   }
 
@@ -158,7 +165,13 @@ export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
       </Content>
 
       <Footer>
-        <Button color={colors.success} title='Alugar agora' onPress={handleConfirmRental} />
+        <Button 
+          loading={loading} 
+          enabled={!loading}
+          color={colors.success} 
+          title='Alugar agora' 
+          onPress={handleConfirmRental} 
+        />
       </Footer>
 
     </Container>

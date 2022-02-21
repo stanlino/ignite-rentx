@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTheme } from 'styled-components'
-import { StatusBar, Alert } from 'react-native'
+import { StatusBar } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 
 import { RootStackParamList } from '../../routes/app.routes'
@@ -47,11 +47,6 @@ export function Sheduling({ navigation, route } : ShedulingProps ){
   const { params: { car } } = route
 
   function handleNavigateToShedulingDetails() {
-
-    if (!rentalPeriod.startFormatted) {
-      return Alert.alert('Atenção!', 'Selecione um intervalo de tempo')
-    }
-
     navigate('ShedulingDetails', {
       car, 
       dates: Object.keys(markedDates)
@@ -120,7 +115,11 @@ export function Sheduling({ navigation, route } : ShedulingProps ){
     </Content>
 
     <Footer>
-      <Button title='Confirmar' onPress={handleNavigateToShedulingDetails} />
+      <Button 
+        title='Confirmar' 
+        onPress={handleNavigateToShedulingDetails}
+        enabled={!!rentalPeriod.startFormatted} 
+      />
     </Footer>
   </Container>
   )
