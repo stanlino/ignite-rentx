@@ -20,6 +20,7 @@ import Animated, {
 import {
   Container
 } from './styles'
+import { StackActions } from '@react-navigation/native'
 
 
 type SplashScreenProps = StackScreenProps<RootStackParamList, 'Splash'>
@@ -68,7 +69,9 @@ export function Splash({ navigation } : SplashScreenProps){
   const AnimatedBrandSvg = Animated.createAnimatedComponent(Svg)
 
   function navigateToApp() {
-    navigation.navigate('Home')
+    navigation.dispatch(
+      StackActions.replace('Home')
+    )
   }
 
   useEffect(() => {
