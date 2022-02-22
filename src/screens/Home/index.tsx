@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StatusBar, StyleSheet } from 'react-native'
+import { Alert, StatusBar, StyleSheet } from 'react-native'
 import { RFValue } from 'react-native-responsive-fontsize'
 import { useTheme } from 'styled-components'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -16,7 +16,7 @@ import { RootStackParamList } from '../../routes/app.routes'
 
 import LogoSvg from '../../assets/logo.svg'
 import { Car } from '../../components/Car'
-import { Load } from '../../components/Load'
+import { LoadAnimation } from '../../components/LoadAnimation'
 
 import { api } from '../../services/api'
 import { CarDTO } from '../../dtos/carDto'
@@ -80,7 +80,7 @@ export function Home({ navigation } : HomeScreenProps){
         const response = await api.get('/cars')
         setCars(response.data)
       } catch (error) {
-        console.log(error)
+        Alert.alert('Ops', 'Houve um erro ao buscar os dados na api')
       }
     }
 
@@ -100,14 +100,15 @@ export function Home({ navigation } : HomeScreenProps){
         {cars.length > 0 && <TotalCars>Total de {cars.length} carros</TotalCars>}
       </Header>
 
-      <CardList 
-        data={cars}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => 
-          <Car data={item} onPress={() => handleNavigateToCarDetails(item)} />
-        }
-        ListEmptyComponent={() => <Load />}
-      />
+      { cars.length > 0 ?  
+        <CardList 
+          data={cars}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => 
+            <Car data={item} onPress={() => handleNavigateToCarDetails(item)} />
+          }
+        /> : <LoadAnimation />
+      }
 
       <PanGestureHandler
         onGestureEvent={onGestureEvent}

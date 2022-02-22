@@ -6,7 +6,6 @@ import { AntDesign } from '@expo/vector-icons'
 
 import { BackButton } from '../../components/BackButton'
 import { Car } from '../../components/Car'
-import { Load } from '../../components/Load'
 
 import { api } from '../../services/api'
 
@@ -28,6 +27,7 @@ import {
   CarFooterPeriod,
   CarFooterDate
 } from './styles'
+import { LoadAnimation } from '../../components/LoadAnimation'
 
 interface CarProps {
   id: string
@@ -89,7 +89,7 @@ export function MyCars({ navigation } : HomeScreenProps){
         </Appointments>
       
         {
-          isLoading ? <Load /> :
+          isLoading ? <LoadAnimation /> :
           <FlatList
             data={cars}
             keyExtractor={item => item.id}
