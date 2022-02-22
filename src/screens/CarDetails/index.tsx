@@ -125,10 +125,6 @@ export function CarDetails({ navigation, route } : CarDetailsProps){
 
         <About>
           {car.about}
-          {car.about}
-          {car.about}
-          {car.about}
-          {car.about}
         </About>
 
       </Animated.ScrollView>
