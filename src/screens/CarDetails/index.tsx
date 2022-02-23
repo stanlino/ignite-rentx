@@ -67,7 +67,7 @@ export function CarDetails({ navigation, route } : CarDetailsProps){
   })
 
   function handleNavigateToSheduling() {
-    navigate('Sheduling', { car })
+    navigate('Scheduling', { car })
   }
 
   return (

@@ -45,9 +45,9 @@ import {
 import { api } from '../../services/api'
 
 
-type ShedulingDetailsProps = StackScreenProps<RootStackParamList, 'ShedulingDetails'>
+type SchedulingDetailsProps = StackScreenProps<RootStackParamList, 'SchedulingDetails'>
 
-export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
+export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps){
 
   const [loading, setLoading] = useState(false)
 
@@ -82,7 +82,7 @@ export function ShedulingDetails({ navigation, route } : ShedulingDetailsProps){
       unavailable_dates
     })
     .then(() => {
-      navigate('ShedulingComplete')
+      navigate('SchedulingComplete')
     })
     .catch(error => {
       Alert.alert('Ops', 'Erro ao confirmar agendamento')

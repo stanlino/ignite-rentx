@@ -32,9 +32,9 @@ interface RentalPeriod {
   endFormatted: string
 }
 
-type ShedulingProps = StackScreenProps<RootStackParamList, 'Sheduling'>;
+type SchedulingProps = StackScreenProps<RootStackParamList, 'Scheduling'>;
 
-export function Sheduling({ navigation, route } : ShedulingProps ){
+export function Scheduling({ navigation, route } : SchedulingProps ){
   
   const [lastSelectedDate, setLastSelectedDate] = useState<DayProps>({} as DayProps)
   const [markedDates, setMarkedDates] = useState<MarkedDateProps>({} as MarkedDateProps)
@@ -47,7 +47,7 @@ export function Sheduling({ navigation, route } : ShedulingProps ){
   const { params: { car } } = route
 
   function handleNavigateToShedulingDetails() {
-    navigate('ShedulingDetails', {
+    navigate('SchedulingDetails', {
       car, 
       dates: Object.keys(markedDates)
     })
