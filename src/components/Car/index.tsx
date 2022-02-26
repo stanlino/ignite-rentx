@@ -38,10 +38,10 @@ export function Car({ data, ...rest } : Props){
         <About>
           <Rent>
             <Period>
-                {data.rent.period}
+                {data.period}
             </Period>
             <Price>
-                {`R$ ${data.rent.price}`}
+                {`R$ ${data.price}`}
             </Price>
           </Rent>
           <Type>
