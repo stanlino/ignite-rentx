@@ -9,7 +9,7 @@ import { Car } from '../../components/Car'
 
 import { api } from '../../services/api'
 
-import { RootStackParamList } from '../../routes/app.routes'
+import { RootStackParamList } from '../../routes/app.stack.routes'
 import { CarDTO } from '../../dtos/carDto'
 
 import {

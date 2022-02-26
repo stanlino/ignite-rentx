@@ -3,7 +3,7 @@ import { useWindowDimensions } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
 import { StackScreenProps } from '@react-navigation/stack'
 
-import { RootStackParamList } from '../../routes/app.routes'
+import { RootStackParamList } from '../../routes/app.stack.routes'
 
 import { ConfirmButton } from '../../components/ConfirmButton'
 

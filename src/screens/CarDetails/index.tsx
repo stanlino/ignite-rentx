@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components'
 import { StackScreenProps } from '@react-navigation/stack'
 import Animated, { Extrapolate, interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 
-import { RootStackParamList } from '../../routes/app.routes'
+import { RootStackParamList } from '../../routes/app.stack.routes'
 
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'

@@ -12,7 +12,7 @@ import { Bullet } from '../../../components/Bullet'
 import { BackButton } from '../../../components/BackButton'
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'
-import { RootStackParamList } from '../../../routes/app.routes'
+import { RootStackParamList } from '../../../routes/app.stack.routes'
 import { api } from '../../../services/api'
 
 import {

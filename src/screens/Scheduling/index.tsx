@@ -3,7 +3,7 @@ import { useTheme } from 'styled-components'
 import { StatusBar } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 
-import { RootStackParamList } from '../../routes/app.routes'
+import { RootStackParamList } from '../../routes/app.stack.routes'
 
 import { generateInterval } from '../../components/Calendar/generateInterval'
 import { getPlatformDate } from '../../utils/getPlatformDate'

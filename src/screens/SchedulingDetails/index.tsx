@@ -8,7 +8,7 @@ import { format } from 'date-fns'
 
 import { getPlatformDate } from '../../utils/getPlatformDate'
 
-import { RootStackParamList } from '../../routes/app.routes'
+import { RootStackParamList } from '../../routes/app.stack.routes'
 
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
@@ -84,7 +84,7 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
       })
 
       navigate('Confirmation', {
-        nextScreenName: 'Home',
+        nextScreenName: 'AppTabRoutes',
         title: 'Carro alugado!',
         message: 'Agora você só precisa ir \naté a concessionária da RENTX \npegar seu automóvel.'
       })

@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 import { StackScreenProps } from '@react-navigation/stack'
 
-import { RootStackParamList } from '../../routes/app.routes'
+import { RootStackParamList } from '../../routes/app.stack.routes'
 
 import LogoSvg from '../../assets/splash_logo.svg'
 import Svg from './svg'
@@ -70,7 +70,7 @@ export function Splash({ navigation } : SplashScreenProps){
 
   function navigateToApp() {
     navigation.dispatch(
-      StackActions.replace('Home')
+      StackActions.replace('SignIn')
     )
   }
 
