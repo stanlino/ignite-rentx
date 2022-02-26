@@ -1,7 +1,9 @@
 import React from 'react'
 import { useWindowDimensions } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import { useNavigation } from '@react-navigation/native'
+import { StackScreenProps } from '@react-navigation/stack'
+
+import { RootStackParamList } from '../../routes/app.routes'
 
 import { ConfirmButton } from '../../components/ConfirmButton'
 
@@ -15,28 +17,35 @@ import {
   Message,
   Footer
 } from './styles'
+import { useTheme } from 'styled-components/native'
 
-export function SchedulingComplete(){
+type ConfirmationScreenProps = StackScreenProps<RootStackParamList, 'Confirmation'>
+
+export function Confirmation({
+  navigation: { navigate },
+  route: { params }
+} : ConfirmationScreenProps){
 
   const { width } = useWindowDimensions()
-  const { navigate } = useNavigation<any>()
+
+  const { colors } = useTheme()
 
   function handleConfirm() {
-    navigate('Home')
+    navigate(params.nextScreenName)
   }
 
   return (
     <Container>
-        <StatusBar translucent backgroundColor='transparent' style="light" />
+        <StatusBar backgroundColor={colors.header} style="light" />
 
         <LogoSvg width={width} />
 
         <Content>
           <DoneSvg width={80} height={80} />
-          <Title>Carro alugado!</Title>
+          <Title>{params.title}</Title>
 
           <Message>
-            {`Agora você só precisa ir \naté a concessionária da RENTX\n pegar seu automóvel!`}
+            {params.message}
           </Message>
         </Content>
 

@@ -63,31 +63,37 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
 
     setLoading(true)
 
-    const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`)
+    try {
+      const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`)
 
-    const unavailable_dates = [
-      ...schedulesByCar.data.unavailable_dates,
-      ...dates
-    ]
+      const unavailable_dates = [
+        ...schedulesByCar.data.unavailable_dates,
+        ...dates
+      ]
 
-    await api.post('schedules_byuser', {
-      user_id: 2,
-      car,
-      startDate,
-      endDate
-    })
+      await api.post('schedules_byuser', {
+        user_id: 2,
+        car,
+        startDate,
+        endDate
+      })
 
-    api.put(`/schedules_bycars/${car.id}`, {
-      id: car.id,
-      unavailable_dates
-    })
-    .then(() => {
-      navigate('SchedulingComplete')
-    })
-    .catch(error => {
+      await api.put(`/schedules_bycars/${car.id}`, {
+        id: car.id,
+        unavailable_dates
+      })
+
+      navigate('Confirmation', {
+        nextScreenName: 'Home',
+        title: 'Carro alugado!',
+        message: 'Agora você só precisa ir \naté a concessionária da RENTX \npegar seu automóvel.'
+      })
+      
+    } catch (error) {
       Alert.alert('Ops', 'Erro ao confirmar agendamento')
       setLoading(false)
-    })
+    }
+
   }
 
   return (
@@ -110,8 +116,8 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
             <Name>{car.name}</Name>
           </Description>
           <Rent>
-            <Period>{car.rent.period}</Period>
-            <Price>{`R$ ${car.rent.price}`}</Price>
+            <Period>{car.period}</Period>
+            <Price>{`R$ ${car.price}`}</Price>
           </Rent>
         </Details>
 
@@ -157,8 +163,8 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
         <RentalPrice>
           <RentalPriceLabel>Total</RentalPriceLabel>
           <RentalPriceDetails>
-            <RentalPriceQuota>{`R$ ${car.rent.price} x${dates.length} diárias`}</RentalPriceQuota>
-            <RentalPriceTotal>{`R$ ${car.rent.price * dates.length}`}</RentalPriceTotal>
+            <RentalPriceQuota>{`R$ ${car.price} x${dates.length} diárias`}</RentalPriceQuota>
+            <RentalPriceTotal>{`R$ ${car.price * dates.length}`}</RentalPriceTotal>
           </RentalPriceDetails>
         </RentalPrice>
 
