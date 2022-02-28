@@ -8,6 +8,7 @@ import HomeSvg from '../assets/home.svg'
 import CarSvg from '../assets/car.svg'
 import People from '../assets/people.svg'
 import { useTheme } from 'styled-components';
+import { Profile } from '../screens/Profile'
 
 export type RootBottomTabsParamList = {
   Home: undefined
@@ -28,6 +29,7 @@ export function AppTabRoutes(){
         tabBarActiveTintColor: colors.main,
         tabBarInactiveTintColor: colors.text_detail,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: 70,
           backgroundColor: colors.background_primary
@@ -62,7 +64,7 @@ export function AppTabRoutes(){
       />
       <Screen 
         name='Profile' 
-        component={Home} 
+        component={Profile} 
         options={{
           tabBarIcon: ({ color }) => (
             <People 

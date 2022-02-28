@@ -21,6 +21,8 @@ interface SignInCredentials {
 interface AuthContextData {
   user: User
   signIn(credentials: SignInCredentials): Promise<void>
+  signOut(): Promise<void>
+  updateUser(user: User): Promise<void>
 }
 
 interface AuthProviderProps {
@@ -32,6 +34,17 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 function AuthProvider({ children } : AuthProviderProps) {
 
   const [data, setData] = useState<User>({} as User)
+
+  async function loadUserData() {
+    const userCollection = database.get<ModelUser>('users')
+    const response = await userCollection.query().fetch()
+
+    if (response.length > 0) {
+      const userData = response[0]._raw as unknown as User
+      api.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
+      setData(userData)
+    }
+  }
 
   async function signIn({ email, password }: SignInCredentials) {
     try {
@@ -56,31 +69,54 @@ function AuthProvider({ children } : AuthProviderProps) {
         })
       })
 
-      setData({ ...user, token  })
+      await loadUserData()
     } catch {
       throw new Error('Não foi possível realizar o login')
     }
   }
 
-  useEffect(() => {
-    async function loadUserData() {
+  async function signOut() {
+    try {
       const userCollection = database.get<ModelUser>('users')
-      const response = await userCollection.query().fetch()
+      await database.write(async() => {
+        const userSelected = await userCollection.find(data.id)
+        await userSelected.destroyPermanently()
+      })
 
-      if (response.length > 0) {
-        const userData = response[0]._raw as unknown as User
-        api.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`
-        setData(userData)
-      }
+      setData({} as User)
+    } catch (error) {
+      throw new Error('Não foi possível realizar o signOut')
     }
+  }
 
+  async function updateUser(user: User) {
+    try {
+      const userCollection = database.get<ModelUser>('users')
+
+      await database.write(async () => {
+        const userSelected = await userCollection.find(user.id)
+        await userSelected.update(userData => {
+          userData.name = user.name,
+          userData.avatar = user.avatar
+        })
+      })
+
+      setData(user)
+    } catch {
+      throw new Error('Não foi possível atualizar os dados do usuário')
+    }
+  }
+
+  useEffect(() => {
     loadUserData()
   }, [])
 
   return (
     <AuthContext.Provider value={{
       user: data,
-      signIn
+      signIn,
+      signOut,
+      updateUser
     }}>                                                             
       { children }
     </AuthContext.Provider>
