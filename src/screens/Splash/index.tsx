@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
 import { StackScreenProps } from '@react-navigation/stack'
+import { StackActions } from '@react-navigation/native'
 
-import { RootStackParamList } from '../../routes/app.stack.routes'
+import { RootStackAuthParamList } from '../../routes/auth.routes'
 
 import LogoSvg from '../../assets/splash_logo.svg'
 import Svg from './svg'
@@ -20,10 +21,8 @@ import Animated, {
 import {
   Container
 } from './styles'
-import { StackActions } from '@react-navigation/native'
 
-
-type SplashScreenProps = StackScreenProps<RootStackParamList, 'Splash'>
+type SplashScreenProps = StackScreenProps<RootStackAuthParamList, 'SignIn'>
 
 export function Splash({ navigation } : SplashScreenProps){
 

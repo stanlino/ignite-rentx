@@ -21,7 +21,7 @@ import {
 } from './styles'
 
 
-type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>
+type HomeScreenProps = StackScreenProps<RootStackParamList, 'AppTabRoutes'>
 
 export function Home({ navigation } : HomeScreenProps){
 
@@ -35,16 +35,24 @@ export function Home({ navigation } : HomeScreenProps){
   }
 
   useEffect(() => {
+    let isMounted = true
+
     async function fetchCars() {
       try {
         const response = await api.get('/cars')
-        setCars(response.data)
+        if (isMounted) {
+          setCars(response.data)
+        }
       } catch (error) {
         Alert.alert('Ops', 'Houve um erro ao buscar os dados na api')
       }
     }
 
     fetchCars()
+
+    return () => {
+      isMounted = false
+    }
  
   },[])
 

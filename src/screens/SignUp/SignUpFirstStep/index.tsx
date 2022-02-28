@@ -12,7 +12,7 @@ import { Bullet } from '../../../components/Bullet'
 import { BackButton } from '../../../components/BackButton'
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'
-import { RootStackParamList } from '../../../routes/app.stack.routes'
+import { RootStackAuthParamList } from '../../../routes/auth.routes'
 
 import {
   Container,
@@ -24,7 +24,7 @@ import {
   FormTitle
 } from './styles'
 
-type SignUpFirstStepScreenProps = StackScreenProps<RootStackParamList, 'SignUpFirstStep'>
+type SignUpFirstStepScreenProps = StackScreenProps<RootStackAuthParamList, 'SignUpFirstStep'>
 
 export function SignUpFirstStep({ 
   navigation: {

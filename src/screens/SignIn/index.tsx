@@ -13,7 +13,7 @@ import * as Yup from 'yup'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import { useAuth } from '../../hooks/auth'
-import { RootStackParamList } from '../../routes/app.stack.routes'
+import { RootStackAuthParamList } from '../../routes/auth.routes'
 
 import {
   Container, 
@@ -24,7 +24,7 @@ import {
   Footer
 } from './styles'
 
-type SignInScreenProps = StackScreenProps<RootStackParamList, 'SignIn'>
+type SignInScreenProps = StackScreenProps<RootStackAuthParamList, 'SignIn'>
 
 export function SignIn({ navigation: { navigate } } : SignInScreenProps){
 

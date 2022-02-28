@@ -10,7 +10,6 @@ import { CarDTO } from '../dtos/carDto'
 import { AppTabRoutes } from './app.tabs.routes'
 
 export type RootStackParamList = {
-  Splash: undefined
   AppTabRoutes: undefined
   CarDetails: { car: CarDTO }
   Scheduling: { car: CarDTO }
@@ -18,7 +17,7 @@ export type RootStackParamList = {
   Confirmation: {
     title: string
     message: string
-    nextScreenName: 'SignIn' | 'AppTabRoutes'
+    nextScreenName: keyof RootStackParamList
   }
 };
 

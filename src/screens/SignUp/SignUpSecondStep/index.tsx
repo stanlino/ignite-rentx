@@ -12,7 +12,8 @@ import { Bullet } from '../../../components/Bullet'
 import { BackButton } from '../../../components/BackButton'
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'
-import { RootStackParamList } from '../../../routes/app.stack.routes'
+import { RootStackAuthParamList } from '../../../routes/auth.routes'
+
 import { api } from '../../../services/api'
 
 import {
@@ -25,7 +26,7 @@ import {
   FormTitle
 } from './styles'
 
-type SignUpSecondStepScreenProps = StackScreenProps<RootStackParamList, 'SignUpSecondStep'>
+type SignUpSecondStepScreenProps = StackScreenProps<RootStackAuthParamList, 'SignUpSecondStep'>
 
 export function SignUpSecondStep({ 
   navigation: {

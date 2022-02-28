@@ -6,6 +6,7 @@ import { useAuth } from '../hooks/auth'
 
 import { AuthRoutes } from './auth.routes'
 import { AppStackRoutes } from './app.stack.routes'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export function Routes(){
 
@@ -14,7 +15,9 @@ export function Routes(){
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <NavigationContainer>
-        { user ? <AppStackRoutes /> : <AuthRoutes /> }
+        <SafeAreaProvider>
+          { user.id ? <AppStackRoutes /> : <AuthRoutes /> }
+        </SafeAreaProvider>
       </NavigationContainer>
     </GestureHandlerRootView>
   )
