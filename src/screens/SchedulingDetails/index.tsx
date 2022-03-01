@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 import { getPlatformDate } from '../../utils/getPlatformDate'
 
 import { RootStackParamList } from '../../routes/app.stack.routes'
+import { api } from '../../services/api'
 
 import { Accessory } from '../../components/Accessory'
 import { BackButton } from '../../components/BackButton'
@@ -42,8 +43,6 @@ import {
   RentalPriceQuota,
   RentalPriceTotal
 } from './styles'
-import { api } from '../../services/api'
-
 
 type SchedulingDetailsProps = StackScreenProps<RootStackParamList, 'SchedulingDetails'>
 
@@ -56,31 +55,20 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
   const { navigate, goBack } = navigation
   const { params: { car, dates } } = route
 
-  const startDate = format(getPlatformDate(new Date(dates[0])), 'dd-MM-yyyy')
-  const endDate = format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd-MM-yyyy')
+  const start_date = format(getPlatformDate(new Date(dates[0])), 'dd-MM-yyyy')
+  const end_date = format(getPlatformDate(new Date(dates[dates.length - 1])), 'dd-MM-yyyy')
 
   async function handleConfirmRental() {
 
     setLoading(true)
 
     try {
-      const schedulesByCar = await api.get(`/schedules_bycars/${car.id}`)
-
-      const unavailable_dates = [
-        ...schedulesByCar.data.unavailable_dates,
-        ...dates
-      ]
-
-      await api.post('schedules_byuser', {
+      await api.post('rentals', {
         user_id: 2,
-        car,
-        startDate,
-        endDate
-      })
-
-      await api.put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates
+        car_id: car.id,
+        start_date: new Date(dates[0]),
+        end_date: new Date(dates[dates.length - 1]),
+        total: car.price * dates.length
       })
 
       navigate('Confirmation', {
@@ -144,7 +132,7 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
 
           <DateInfo>
             <DateTitle>De</DateTitle>
-            <DateValue>{startDate}</DateValue>
+            <DateValue>{start_date}</DateValue>
           </DateInfo>
 
           <Feather 
@@ -155,7 +143,7 @@ export function SchedulingDetails({ navigation, route } : SchedulingDetailsProps
 
           <DateInfo>
             <DateTitle>Até</DateTitle>
-            <DateValue>{endDate}</DateValue>
+            <DateValue>{end_date}</DateValue>
           </DateInfo>
 
         </RentalPeriod>

@@ -1,7 +1,7 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
-import { StatusBar } from 'react-native';
+import { LogBox, StatusBar } from 'react-native';
 
 import { 
   useFonts, 
@@ -19,6 +19,8 @@ import theme from './src/styles/theme';
 import { Routes } from './src/routes';
 
 import { AppProvider } from './src/hooks';
+
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state'])
 
 export default function App() {
 

@@ -22,9 +22,11 @@ import {
   Container
 } from './styles'
 
-type SplashScreenProps = StackScreenProps<RootStackAuthParamList, 'SignIn'>
+type SplashScreenProps = StackScreenProps<RootStackAuthParamList, 'Splash'>
 
-export function Splash({ navigation } : SplashScreenProps){
+export function Splash({ 
+  navigation, route: {params: { nextScreen }} 
+} : SplashScreenProps){
 
   const { colors } = useTheme()
 
@@ -69,7 +71,7 @@ export function Splash({ navigation } : SplashScreenProps){
 
   function navigateToApp() {
     navigation.dispatch(
-      StackActions.replace('SignIn')
+      StackActions.replace(nextScreen)
     )
   }
 

@@ -5,8 +5,12 @@ import { Confirmation } from '../screens/Confirmation'
 import { SignIn } from '../screens/SignIn'
 import { SignUpFirstStep } from '../screens/SignUp/SignUpFirstStep'
 import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep'
+import { Splash } from '../screens/Splash'
 
 export type RootStackAuthParamList = {
+  Splash: {
+    nextScreen: string
+  }
   Confirmation: {
     title: string
     message: string
@@ -28,6 +32,7 @@ const { Navigator, Screen } = createStackNavigator<RootStackAuthParamList>()
 export function AuthRoutes(){
   return (
     <Navigator screenOptions={{ headerShown: false, presentation: 'modal' }}>
+      <Screen name='Splash' component={Splash} initialParams={{ nextScreen: 'SignIn' }} />
       <Screen name='SignIn' component={SignIn} />
       <Screen name='SignUpFirstStep' component={SignUpFirstStep} />
       <Screen name='SignUpSecondStep' component={SignUpSecondStep} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack'
 import { Alert, FlatList, StatusBar } from 'react-native'
 import { useTheme } from 'styled-components'
@@ -8,9 +8,9 @@ import { BackButton } from '../../components/BackButton'
 import { Car } from '../../components/Car'
 
 import { api } from '../../services/api'
+import { RootBottomTabsParamList } from '../../routes/app.tabs.routes'
 
-import { RootStackParamList } from '../../routes/app.stack.routes'
-import { CarDTO } from '../../dtos/carDto'
+import { Car as ModelCar } from '../../database/models/Car'
 
 import {
   Container,
@@ -28,16 +28,19 @@ import {
   CarFooterDate
 } from './styles'
 import { LoadAnimation } from '../../components/LoadAnimation'
+import { format } from 'date-fns'
+import { getPlatformDate } from '../../utils/getPlatformDate'
+import { useFocusEffect } from '@react-navigation/native'
 
 interface CarProps {
   id: string
   user_id: string
-  car: CarDTO
-  startDate: string
-  endDate: string
+  car: ModelCar
+  start_date: string
+  end_date: string
 }
 
-type HomeScreenProps = StackScreenProps<RootStackParamList, 'MyCars'>
+type HomeScreenProps = StackScreenProps<RootBottomTabsParamList, 'MyCars'>
 
 export function MyCars({ navigation } : HomeScreenProps){
   
@@ -48,12 +51,11 @@ export function MyCars({ navigation } : HomeScreenProps){
 
   const { colors } = useTheme()
 
-  useEffect(() => {
+  useFocusEffect(() => {
 
     async function fetchCars() {
       try {
-        const response = await api.get(`/schedules_byuser?user_id=2`)
-
+        const response = await api.get(`/rentals`)
         setCars(response.data)
       } catch (error) {
         Alert.alert('Ops', 'Houve um erro ao carregar os carros')
@@ -64,7 +66,7 @@ export function MyCars({ navigation } : HomeScreenProps){
 
     fetchCars()
 
-  }, [])
+  })
 
   return (
     <Container>
@@ -100,7 +102,7 @@ export function MyCars({ navigation } : HomeScreenProps){
                 <CarFooter>
                   <CarFooterTitle>Período</CarFooterTitle>
                   <CarFooterPeriod>
-                    <CarFooterDate>{item.startDate}</CarFooterDate>
+                    <CarFooterDate>{format(getPlatformDate(new Date(item.start_date)), 'dd-MM-yyyy')}</CarFooterDate>
 
                     <AntDesign
                       name="arrowright"
@@ -109,7 +111,7 @@ export function MyCars({ navigation } : HomeScreenProps){
                       style={{ marginHorizontal: 10 }}
                     />
 
-                    <CarFooterDate>{item.endDate}</CarFooterDate> 
+                    <CarFooterDate>{format(getPlatformDate(new Date(item.end_date)), 'dd-MM-yyyy')}</CarFooterDate> 
                   </CarFooterPeriod>
                 </CarFooter>
               </CarWrapper>

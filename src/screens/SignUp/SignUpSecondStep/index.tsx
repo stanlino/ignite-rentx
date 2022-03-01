@@ -62,7 +62,6 @@ export function SignUpSecondStep({
       })
     })
     .catch(error => {
-      console.log(error)
       Alert.alert('Ops', 'Não foi possível realizar o cadastro :(')
     })
   }
